@@ -67,6 +67,5 @@ GitHub地址: https://github.com/lyk1576070851/CourseArragement
 5.  希望项目可以帮助到广大小伙伴们
 
 如果项目对你有帮助，也可以请我喝喝奶茶哦~
-<center class = "half">
-<img src = “https://images.gitee.com/uploads/images/2021/0204/084342_ec588898_5505532.png”  width = “50%” align = left><img src = “https://images.gitee.com/uploads/images/2021/0204/084506_5c50d8ef_5505532.png”  width = “50%” align = right>
-</center>
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0204/084342_ec588898_5505532.png "屏幕截图.png")![输入图片说明](https://images.gitee.com/uploads/images/2021/0204/084506_5c50d8ef_5505532.png "屏幕截图.png")
+
