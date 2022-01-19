@@ -15,10 +15,12 @@ import echarts from 'echarts'
 
 // 引入全局样式
 import './assets/css/global.css';
-import { Button, Select, Form, Radio, Table, Container, Message, Pagination, Dialog, Autocomplete,
-         Submenu, Menu, MenuItem, MenuItemGroup, Input, Option, FormItem, TableColumn, Row,
-         Icon, Dropdown, DropdownMenu, DropdownItem, Header, Aside, Main, Footer, Popover, Upload,
-         MessageBox, Col, Cascader,Image,Link} from 'element-ui';
+import {
+  Button, Select, Form, Radio, Table, Container, Message, Pagination, Dialog, Autocomplete,
+  Submenu, Menu, MenuItem, MenuItemGroup, Input, Option, FormItem, TableColumn, Row,
+  Icon, Dropdown, DropdownMenu, DropdownItem, Header, Aside, Main, Footer, Popover, Upload,
+  MessageBox, Col, Cascader, Image, Link
+} from 'element-ui';
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
