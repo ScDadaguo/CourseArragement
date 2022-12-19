@@ -25,26 +25,29 @@
       <div class="tabel-container">
         <table>
           <thead>
-            <tr>
-              <th>时间</th>
-              <th
-                v-for="(weekNum, weekIndex) in classTableData.courses.length"
-                :key="weekIndex"
-              >{{'周' + digital2Chinese(weekIndex + 1, 'week')}}</th>
-            </tr>
+          <tr>
+            <th>时间</th>
+            <th
+              v-for="(weekNum, weekIndex) in classTableData.courses.length"
+              :key="weekIndex"
+            >{{ '周' + digital2Chinese(weekIndex + 1, 'week') }}
+            </th>
+          </tr>
           </thead>
           <tbody>
-            <tr v-for="(lesson, lessonIndex) in classTableData.lessons" :key="lessonIndex">
-              <td>
-                <p>{{'第' + digital2Chinese(lessonIndex+1) + "节"}}</p>
-                <p class="period">{{ lesson }}</p>
-              </td>
+          <tr v-for="(lesson, lessonIndex) in classTableData.lessons" :key="lessonIndex">
+            <td>
+              <p>{{ '第' + digital2Chinese(lessonIndex + 1) + "节" }}</p>
+              <p class="period">{{ lesson }}</p>
+            </td>
 
-              <td
-                v-for="(course, courseIndex) in classTableData.courses"
-                :key="courseIndex"
-              >{{classTableData.courses[courseIndex][lessonIndex] || '-'}}</td>
-            </tr>
+            <td
+              v-for="(course, courseIndex) in classTableData.courses"
+              :key="courseIndex"
+            >
+              {{ classTableData.courses[courseIndex][lessonIndex] || '-' }}
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -91,6 +94,10 @@ export default {
           "9.10-10.45",
           "11.00-12.35",
           "14.20-15.55",
+          "16.10-17.45",
+          "16.10-17.45",
+          "16.10-17.45",
+          "16.10-17.45",
           "16.10-17.45"
 
         ],
@@ -111,7 +118,7 @@ export default {
         //   ["生物", "物理", "化学", "", "历史", "英语", "数学", "语文"],
         //   ["语文", "数学", "英语", "", "", "", "", ""]
         // ],
-        courses: [[],[],[],[],[]
+        courses: [[], [], [], [], [], [], [], []
           // ["生物", "物理", "化学", "政治", "历史"],
           // ["语文", "数学", "英语", "历史", "", "化学", "物理", "生物"],
           // ["生物", "", "化学", "政治", "历史", "英语", "数学", "语文"],
@@ -128,7 +135,8 @@ export default {
     //     'courses|7': [['生物', '物理', '化学', '政治', '历史', '英语', '', '语文']]
     // });
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
 
     // 查询班级编号，班级名
@@ -138,12 +146,12 @@ export default {
         .then(res => {
           //alert(this.value2)
           let r = res.data.data;
-          this.classNo.splice(0,this.classNo.length); 
+          this.classNo.splice(0, this.classNo.length);
           this.value3 = ''
-          r.map(v=>{
+          r.map(v => {
             this.classNo.push({
-              value:v.classNo,
-              lable:v.className
+              value: v.classNo,
+              lable: v.className
             })
           })
         })
@@ -154,8 +162,8 @@ export default {
 
     // 查询课程表
     queryCoursePlan() {
-      this.classTableData.courses.map((item, index)=>{
-        this.classTableData.courses[index].splice(0,this.classTableData.courses[index].length)
+      this.classTableData.courses.map((item, index) => {
+        this.classTableData.courses[index].splice(0, this.classTableData.courses[index].length)
       })
       this.$axios
         .get("http://localhost:8080/courseplan/" + this.value3)
@@ -167,19 +175,18 @@ export default {
           for (let index = 0; index < courseData.length; index++) {
             times = times + 1;
             const item = courseData[index];
-            if(parseInt(item.classTime) != times){
+            if (parseInt(item.classTime) != times) {
               this.classTableData.courses[level].push("");
               index = index - 1;
-            }
-            else{
-              
+            } else {
+
               this.classTableData.courses[level].push(item.teacher.realname + "-" + item.courseInfo.courseName + "(" + item.classroomNo + ")");
             }
-            if((times % 5) == 0){
+            if ((times % 5) == 0) {
               level = level + 1;
             }
           }
-          this.$message({message:'查询成功', type: 'success'})
+          this.$message({message: '查询成功', type: 'success'})
         })
     },
 
@@ -196,17 +203,17 @@ export default {
         "二",
         "三",
         "四",
-        "五"
-        // "六",
-        // "七",
-        // "八",
+        "五",
+        "六",
+        "七",
+        "八",
       ];
       return identifier === "week" && (num === 0 || num === 7)
         ? "日"
         : character[num];
     },
 
-    
+
   }
 };
 </script>
@@ -215,56 +222,68 @@ export default {
 
 
 .class-table {
-  .top-select {
-    text-align: left;
-    margin-left: 7px;
-  }
-  .table-wrapper {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-  }
-  .tabel-container {
-    margin: 7px;
-    font-size: 30px;
-    table {
-      table-layout: fixed;
-      width: 100%;
-      word-wrap:break-word;
-      word-break:break-all;
-      border-collapse:collapse;
-      thead {
-        background-color: #67a1ff;
-        th {
-          color: #fff;
-          line-height: 17px;
-          font-weight: normal;
-          font-size: 15px;
-        }
-      }
-      tbody {
-        background-color: #eaf2ff;
-        td {
-          font-size: 13px;
-          color: #677998;
-          line-height: 13px;
-        }
-      }
-      th,
-      td {
-        width: 60px;
-        padding: 12px 2px;
-        font-size: 12px;
-        text-align: center;
-      }
 
-      tr td:first-child {
-        color: #333;
-        .period {
-          font-size: 12px;
-        }
-      }
-    }
-  }
 }
+
+.top-select {
+  text-align: left;
+  margin-left: 7px;
+}
+
+.table-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.tabel-container {
+  margin: 7px;
+  font-size: 30px;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: break-all;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #67a1ff;
+}
+
+th {
+  color: #fff;
+  line-height: 17px;
+  font-weight: normal;
+  font-size: 15px;
+}
+
+
+tbody {
+  background-color: #eaf2ff;
+}
+
+td {
+  font-size: 13px;
+  color: #677998;
+  line-height: 13px;
+}
+
+td {
+  width: 60px;
+  padding: 12px 2px;
+  font-size: 12px;
+  text-align: center;
+}
+
+tr td:first-child {
+  color: #333;
+}
+
+.period {
+  font-size: 12px;
+}
+
 </style>
