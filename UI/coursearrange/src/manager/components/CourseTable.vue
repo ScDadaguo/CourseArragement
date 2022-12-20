@@ -23,29 +23,64 @@
     </div>
     <div class="table-wrapper">
       <div class="tabel-container">
+
         <table>
           <thead>
           <tr>
             <th>时间</th>
             <th
-              v-for="(weekNum, weekIndex) in classTableData.courses.length"
-              :key="weekIndex"
-            >{{ '周' + digital2Chinese(weekIndex + 1, 'week') }}
+              v-for="(moment, weekIndex) in classTableData.moment"
+              :key="weekIndex">
+              <p class="period">{{ moment }}</p>
             </th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(lesson, lessonIndex) in classTableData.lessons" :key="lessonIndex">
-            <td>
-              <p>{{ '第' + digital2Chinese(lessonIndex + 1) + "节" }}</p>
-              <p class="period">{{ lesson }}</p>
+          <tr v-for="(course) in courseData">
+            <td class="first-titled-pane">
+              <p>{{course.project}}</p>
             </td>
-
-            <td
-              v-for="(course, courseIndex) in classTableData.courses"
-              :key="courseIndex"
-            >
-              {{ classTableData.courses[courseIndex][lessonIndex] || '-' }}
+            <td>
+              <p>{{course.moment1}}</p>
+            </td>
+            <td>
+              <p>{{course.moment2}}</p>
+            </td>
+            <td>
+              <p>{{course.moment3}}</p>
+            </td>
+            <td>
+              <p>{{course.moment4}}</p>
+            </td>
+            <td>
+              <p>{{course.moment5}}</p>
+            </td>
+            <td>
+              <p>{{course.moment6}}</p>
+            </td>
+            <td>
+              <p>{{course.moment7}}</p>
+            </td>
+            <td>
+              <p>{{course.moment8}}</p>
+            </td>
+            <td>
+              <p>{{course.moment9}}</p>
+            </td>
+            <td>
+              <p>{{course.moment10}}</p>
+            </td>
+            <td>
+              <p>{{course.moment11}}</p>
+            </td>
+            <td>
+              <p>{{course.moment12}}</p>
+            </td>
+            <td>
+              <p>{{course.moment13}}</p>
+            </td>
+            <td>
+              <p>{{course.moment14}}</p>
             </td>
           </tr>
           </tbody>
@@ -59,6 +94,7 @@
 export default {
   data() {
     return {
+      courseData: [],
       semester: [
         {
           value: "2019-2020-1",
@@ -90,16 +126,20 @@ export default {
       value3: "",
       classTableData: {
         lessons: [
-          "07.20-8.55",
-          "9.10-10.45",
-          "11.00-12.35",
-          "14.20-15.55",
-          "16.10-17.45",
-          "16.10-17.45",
-          "16.10-17.45",
-          "16.10-17.45",
-          "16.10-17.45"
-
+          "8:00-8:30",
+          "8:35-9:05",
+          "9:10-9:40",
+          "9:45-10:15",
+          "10:20-10:50",
+          "10:55-11:25",
+          "11.25-11.55",
+          "1:30-2:00",
+          "2:05-2:35",
+          "2:40-3:10",
+          "3:15-3:45",
+          "3:50-4:20",
+          "4:25-4:55",
+          "4:55-5:15",
         ],
         // 每一行对应周几的一列
         // 第1节：7.20-8.55
@@ -118,13 +158,30 @@ export default {
         //   ["生物", "物理", "化学", "", "历史", "英语", "数学", "语文"],
         //   ["语文", "数学", "英语", "", "", "", "", ""]
         // ],
-        courses: [[], [], [], [], [], [], [], []
+        courses: [[], [], [], [], [], [], []
           // ["生物", "物理", "化学", "政治", "历史"],
           // ["语文", "数学", "英语", "历史", "", "化学", "物理", "生物"],
           // ["生物", "", "化学", "政治", "历史", "英语", "数学", "语文"],
           // ["语文", "数学", "英语", "历史", "政治", "", "物理", "生物"],
           // ["生物", "物理", "化学", "", "历史", "英语", "数学", "语文"]
-        ]
+        ],
+        moment: [
+          "8:00-8:30",
+          "8:35-9:05",
+          "9:10-9:40",
+          "9:45-10:15",
+          "10:20-10:50",
+          "10:55-11:25",
+          "11.25-11.55",
+          "1:30-2:00",
+          "2:05-2:35",
+          "2:40-3:10",
+          "3:15-3:45",
+          "3:50-4:20",
+          "4:25-4:55",
+          "4:55-5:15",
+        ],
+
       }
     };
   },
@@ -136,6 +193,7 @@ export default {
     // });
   },
   mounted() {
+    this.queryCoursePlan();
   },
   methods: {
 
@@ -162,30 +220,15 @@ export default {
 
     // 查询课程表
     queryCoursePlan() {
-      this.classTableData.courses.map((item, index) => {
-        this.classTableData.courses[index].splice(0, this.classTableData.courses[index].length)
-      })
+      // this.classTableData.courses.map((item, index) => {
+      //   this.classTableData.courses[index].splice(0, this.classTableData.courses[index].length)
+      // })
       this.$axios
-        .get("http://localhost:8080/courseplan/" + this.value3)
+        .get("http://localhost:8080/course/queryAllCourse")
         .then(res => {
           console.log(res)
-          let courseData = res.data.data;
-          let level = 0;
-          let times = 0;
-          for (let index = 0; index < courseData.length; index++) {
-            times = times + 1;
-            const item = courseData[index];
-            if (parseInt(item.classTime) != times) {
-              this.classTableData.courses[level].push("");
-              index = index - 1;
-            } else {
-
-              this.classTableData.courses[level].push(item.teacher.realname + "-" + item.courseInfo.courseName + "(" + item.classroomNo + ")");
-            }
-            if ((times % 5) == 0) {
-              level = level + 1;
-            }
-          }
+          this.courseData = res.data.data
+          console.log(this.courseData)
           this.$message({message: '查询成功', type: 'success'})
         })
     },
@@ -207,6 +250,41 @@ export default {
         "六",
         "七",
         "八",
+        "九",
+        "十",
+        "十一",
+        "十二",
+        "十三",
+        "十四"
+      ];
+      return identifier === "week" && (num === 0 || num === 7)
+        ? "日"
+        : character[num];
+    },
+
+    /**
+     * 数字转中文
+     * @param {Number} num 需要转换的数字
+     * @param {String} identifier 标识符
+     * @returns {String} 转换后的中文
+     */
+    digitalChinese(num, identifier) {
+      const character = [
+        "零",
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "七",
+        "八",
+        "九",
+        "十",
+        "十一",
+        "十二",
+        "十三",
+        "十四"
       ];
       return identifier === "week" && (num === 0 || num === 7)
         ? "日"
@@ -220,7 +298,10 @@ export default {
 
 <style lang="less" scoped>
 
-
+.first-titled-pane{
+  /*灰色*/
+  background-color: #E5E5E5;
+}
 .class-table {
 
 }

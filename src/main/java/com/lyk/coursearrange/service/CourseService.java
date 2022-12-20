@@ -1,7 +1,8 @@
 package com.lyk.coursearrange.service;
 
-import cc.ddglove.yb.model.po.CourseExcelDto;
-import cc.ddglove.yb.model.req.CourseUserAddReq;
+
+import com.lyk.coursearrange.entity.dto.CourseExcelDto;
+import com.lyk.coursearrange.entity.request.CourseUserAddReq;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public interface CourseService {
      * 导出课表到excel
      */
     void exportInfoToExcel();
+
+    List<CourseExcelDto> queryAllCourse();
 
     /**
      * 从课表excel导入数据到系统

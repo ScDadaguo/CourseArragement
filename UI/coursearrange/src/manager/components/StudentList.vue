@@ -2,34 +2,22 @@
   <div>
     <!-- 功能 -->
     <div class="header-menu">
-      <el-input placeholder="搜索学生" v-model="keyword" @clear="inputListener" clearable>
+      <el-input placeholder="搜索病人" v-model="keyword" @clear="inputListener" clearable>
         <el-button slot="append" type="primary" icon="el-icon-search" @click="searchStudent">搜索</el-button>
       </el-input>
-      <el-select v-model="value1" placeholder="年级" @change="queryClass" @clear="gradeListener" clearable>
-        <el-option v-for="item in grade" :key="item.value" :label="item.label" :value="item.value"></el-option>
-      </el-select>
-      <el-select v-model="value2" placeholder="班级" @change="queryStudentByClass" @clear="classListener" clearable>
-        <el-option
-          v-for="item in classNo"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
+      <el-button type="primary" @click="addPatient()" class="addon">添加病人</el-button>
     </div>
     <!-- 数据显示 -->
     <el-table :data="studentData" size="mini" :stripe="true" :highlight-current-row="true">
       <el-table-column label="序号" type="selection"></el-table-column>
       <!-- <el-table-column prop="id" label="ID"></el-table-column> -->
-      <el-table-column prop="studentNo" label="学号" fixed width="100"></el-table-column>
-      <el-table-column prop="realname" label="姓名" fixed width="100"></el-table-column>
-      <el-table-column prop="username" label="昵称" fixed width="100"></el-table-column>
-      <el-table-column prop="grade" label="年级" fixed width="100"></el-table-column>
-      <el-table-column prop="classNo" label="班级" fixed width="100"></el-table-column>
-      <el-table-column prop="age" label="年龄" fixed width="80"></el-table-column>
-      <el-table-column prop="telephone" label="电话" fixed width="100"></el-table-column>
-      <el-table-column prop="email" label="邮件" fixed width="150"></el-table-column>
-      <el-table-column prop="address" label="地址"></el-table-column>
+      <el-table-column prop="name" label="姓名" fixed width="100"></el-table-column>
+      <el-table-column prop="bedNumber" label="病床号" fixed width="100"></el-table-column>
+      <el-table-column prop="phone" label="手机号" fixed width="100"></el-table-column>
+      <el-table-column prop="responsibilities" label="治疗项目" fixed width="100"></el-table-column>
+      <el-table-column prop="hyperbaricOxygenStartTime" label="高压氧开始时间" fixed width="80"></el-table-column>
+      <el-table-column prop="hyperbaricOxygenEndTime" label="高压氧结束时间" fixed width="100"></el-table-column>
+      <el-table-column prop="location" label="上课位置" fixed width="150"></el-table-column>
 
       <el-table-column prop="operation" label="操作">
         <template slot-scope="scope">
@@ -48,7 +36,7 @@
         :rules="editFormRules"
       >
         <el-form-item label="学号">
-          <el-input v-model="editFormData.studentNo" autocomplete="off" disabled></el-input>
+          <el-input v-model="editFormData.studentNo" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="昵称" prop="username">
           <el-input v-model="editFormData.username" autocomplete="off"></el-input>
@@ -81,6 +69,74 @@
       </div>
     </el-dialog>
 
+    <!-- 弹出表单添加讲师 -->
+    <el-dialog title="添加病人" :visible.sync="visibleAddForm">
+      <el-form
+        :model="addPatientForm"
+        label-position="left"
+        label-width="80px"
+        :rules="addPatientRules"
+      >
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="addPatientForm.name" autocomplete="off" ></el-input>
+        </el-form-item>
+        <el-form-item label="病床号" prop="bedNumber">
+          <el-input v-model="addPatientForm.bedNumber" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="addPatientForm.phone" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="治疗项目" prop="responsibilities">
+<!--          <el-input v-model="addPatientForm.responsibilities" autocomplete="off"></el-input>-->
+          <el-select v-model="addPatientForm.responsibilities" multiple placeholder="请选择治疗项目">
+            <el-option
+              v-for="item in project"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="高压氧时间" prop="hyperbaricOxygenEndTime">
+          <el-time-select
+            placeholder="起始时间"
+            v-model="addPatientForm.hyperbaricOxygenStartTime"
+            :picker-options="{
+                start: '08:30',
+                step: '00:15',
+                end: '18:30'
+              }">
+          </el-time-select>
+          <el-time-select
+            placeholder="结束时间"
+            v-model="addPatientForm.hyperbaricOxygenEndTime"
+            :picker-options="{
+            start: '08:30',
+            step: '00:15',
+            end: '18:30',
+            minTime: addPatientForm.hyperbaricOxygenStartTime
+           }">
+          </el-time-select>
+        </el-form-item>
+
+        <el-form-item label="上课位置" prop="location">
+          <el-select v-model="addPatientForm.location" placeholder="请选择上课位置">
+            <el-option
+              v-for="item in locationType"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="visibleAddForm = false">取 消</el-button>
+        <el-button type="primary" @click="addCommit()">提 交</el-button>
+      </div>
+    </el-dialog>
+
     <!-- 上一页，当前页，下一页 -->
     <div class="footer-button">
       <el-pagination
@@ -108,19 +164,84 @@ export default {
       total: 0,
       value1: "", // 年级
       value2: "", // 班级
-      grade: [
+      addPatientRules: {
+        name: [
+          { required: true, message: "请输入真实姓名", trigger: "blur" }
+        ],
+        responsibilities: [{ required: true, message: "治疗项目必填", trigger: "blur" }]
+      },
+
+      project: [
         {
-          value: "01",
-          label: "高一"
+          value: 0,
+          label: "经颅磁"
         },
         {
-          value: "02",
-          label: "高二"
+          value: 1,
+          label: "强磁"
         },
         {
-          value: "03",
-          label: "高三"
+          value: 2,
+          label: "脑循环"
+        },
+        {
+          value: 3,
+          label: "生物反馈"
+        },
+        {
+          value: 4,
+          label: "NMES"
+        },
+        {
+          value: 5,
+          label: "膈肌"
+        },
+        {
+          value: 6,
+          label: "直立床"
+        },
+        {
+          value: 7,
+          label: "踩车"
+        },
+        {
+          value: 8,
+          label: "导频"
+        },
+        {
+          value: 9,
+          label: "蜡疗"
+        },
+        {
+          value: 10,
+          label: "直立床楼"
+        },
+        {
+          value: 11,
+          label: "PT"
+        },
+        {
+          value: 12,
+          label: "OT"
+        },
+        {
+          value: 13,
+          label: "ST"
+        },
+        {
+          value: 14,
+          label: "感统"
         }
+      ],
+      locationType: [
+        {
+          value: 0,
+          label: "楼上"
+        },
+        {
+          value: 1,
+          label: "楼下"
+        },
       ],
       classNo: [
         {
@@ -129,15 +250,25 @@ export default {
         }
       ],
       visibleForm: false,
+      visibleAddForm: false,
       editFormRules: {
-        username: [{ required: true, message: "请输入昵称", trigger: "blur" }],
-        realname: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        grade: [{ required: true, message: "请输入年级", trigger: "blur" }],
-        classNo: [{ required: true, message: "请输入班级", trigger: "blur" }],
-        telephone: [{ required: true, message: "请输入联系电话", trigger: "blur" }],
-        email: [{ required: true, message: "请输入邮件", trigger: "blur" }],
-        address: [{ required: true, message: "请输入地址", trigger: "blur" }],
-        age: [{ required: true, message: "请输入年龄", trigger: "blur" }]
+        username: [{required: true, message: "请输入昵称", trigger: "blur"}],
+        realname: [{required: true, message: "请输入姓名", trigger: "blur"}],
+        grade: [{required: true, message: "请输入年级", trigger: "blur"}],
+        classNo: [{required: true, message: "请输入班级", trigger: "blur"}],
+        telephone: [{required: true, message: "请输入联系电话", trigger: "blur"}],
+        email: [{required: true, message: "请输入邮件", trigger: "blur"}],
+        address: [{required: true, message: "请输入地址", trigger: "blur"}],
+        age: [{required: true, message: "请输入年龄", trigger: "blur"}]
+      },
+      addPatientForm: {
+        name: "",
+        bedNumber: "",
+        phone: "",
+        responsibilities: "",
+        hyperbaricOxygenStartTime: "",
+        hyperbaricOxygenEndTime: "",
+        location: "",
       }
     };
   },
@@ -147,6 +278,29 @@ export default {
   },
 
   methods: {
+
+    // 提交添加讲师的表单
+    addCommit() {
+      this.addPatientForm.responsibilities = this.addPatientForm.responsibilities.toString();
+      console.log(this.addPatientForm);
+      this.$axios
+        .post("http://localhost:8080/course/addPatient", this.addPatientForm)
+        .then(res => {
+          console.log(res);
+          if (res.data.code == 0) {
+            this.allTeacher();
+            this.visibleAddForm = false;
+            this.$message({ message: "添加讲师成功", type: "success" });
+          }
+        })
+        .catch(error => {
+          this.$message.error("添加讲师失败");
+        });
+    },
+
+    addPatient() {
+      this.visibleAddForm = true;
+    },
 
     // 清空年级回到查询所有学生
     gradeListener() {
@@ -175,7 +329,7 @@ export default {
           });
         })
         .catch(error => {
-          
+
         });
     },
 
@@ -214,7 +368,7 @@ export default {
      */
     allStudent() {
       this.$axios
-        .get("http://localhost:8080/student/students/" + this.page)
+        .get("http://localhost:8080/course/queryAllPatients/" + this.page)
         .then(res => {
           let ret = res.data.data
           this.studentData = ret.records
@@ -236,7 +390,7 @@ export default {
           let ret = res.data.data
           this.studentData = ret.records
           this.total = ret.total
-          this.$message({ message: "查询成功", type: "success" })
+          this.$message({message: "查询成功", type: "success"})
         })
         .catch(error => {
           this.$message.error("查询失败")
@@ -254,7 +408,7 @@ export default {
       this.$axios
         .delete("http://localhost:8080/student/delete/" + id)
         .then(res => {
-          this.$message({ message: "删除成功", type: "success" })
+          this.$message({message: "删除成功", type: "success"})
           this.allStudent()
         })
         .catch(error => {
@@ -278,7 +432,7 @@ export default {
       this.$axios
         .post("http://localhost:8080/student/modify/" + this.editFormData.id, modifyData)
         .then(res => {
-          this.$message({ message: "更新成功", type: "success" })
+          this.$message({message: "更新成功", type: "success"})
           this.allStudent()
           this.visibleForm = false
         })
@@ -287,7 +441,8 @@ export default {
         });
     },
 
-    handleSizeChange() {},
+    handleSizeChange() {
+    },
 
     handleCurrentChange(v) {
       this.page = v
@@ -301,6 +456,7 @@ export default {
 .el-input-group {
   width: 40%;
 }
+
 .header-menu {
   margin-bottom: 5px;
   padding: 0;

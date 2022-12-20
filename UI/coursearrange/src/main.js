@@ -19,7 +19,7 @@ import {
   Button, Select, Form, Radio, Table, Container, Message, Pagination, Dialog, Autocomplete,
   Submenu, Menu, MenuItem, MenuItemGroup, Input, Option, FormItem, TableColumn, Row,
   Icon, Dropdown, DropdownMenu, DropdownItem, Header, Aside, Main, Footer, Popover, Upload,
-  MessageBox, Col, Cascader, Image, Link
+  MessageBox, Col, Cascader, Image, Link,TimeSelect,DatePicker,TimePicker
 } from 'element-ui';
 
 Vue.config.productionTip = false;
@@ -62,7 +62,9 @@ Vue.use(MenuItemGroup);
 Vue.use(Input);
 Vue.use(Image);
 Vue.use(Link);
-
+Vue.use(TimeSelect);
+Vue.use(DatePicker);
+Vue.use(TimePicker);
 
 new Vue({
   el: '#app',

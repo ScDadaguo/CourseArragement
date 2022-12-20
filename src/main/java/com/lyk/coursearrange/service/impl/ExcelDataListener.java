@@ -1,9 +1,9 @@
 package com.lyk.coursearrange.service.impl;
 
-import cc.ddglove.yb.model.po.CourseExcelDto;
-import cc.ddglove.yb.service.CourseService;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
+import com.lyk.coursearrange.entity.dto.CourseExcelDto;
+import com.lyk.coursearrange.service.CourseService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

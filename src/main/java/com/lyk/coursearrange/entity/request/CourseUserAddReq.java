@@ -31,15 +31,13 @@ public class CourseUserAddReq {
     /**
      * 高压氧开始时间
      */
-    private Date hyperbaricOxygenStartTime;
+    private String hyperbaricOxygenStartTime;
     /**
      * 高压氧结束时间
      */
-    private Date hyperbaricOxygenEndTime;
+    private String hyperbaricOxygenEndTime;
     /**
      * 上课位置（1-楼下 2-楼上）
      */
     private Integer location;
-
-    private Integer sort;
 }

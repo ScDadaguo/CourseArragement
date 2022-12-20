@@ -1,8 +1,8 @@
 package com.lyk.coursearrange.entity.po;
 
 
-import cc.ddglove.yb.controller.enums.ProjectEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.lyk.coursearrange.enums.ProjectEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,11 +45,11 @@ public class CourseUserPo extends BasePo{
     /**
      * 高压氧开始时间
      */
-    private Date hyperbaricOxygenStartTime;
+    private String hyperbaricOxygenStartTime;
     /**
      * 高压氧结束时间
      */
-    private Date hyperbaricOxygenEndTime;
+    private String hyperbaricOxygenEndTime;
     /**
      * 上课位置（1-楼下 2-楼上）
      */

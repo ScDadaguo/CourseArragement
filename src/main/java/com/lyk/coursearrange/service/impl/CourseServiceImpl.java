@@ -3,6 +3,7 @@ package com.lyk.coursearrange.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.util.DateUtils;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lyk.coursearrange.dao.CourseMapper;
@@ -24,8 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -175,6 +178,20 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void exportInfoToExcel() {
 
+        final List<CourseExcelDto> excelDtoList = queryAllCourse();
+
+        String fileName = TestFileUtil.getPath() + "儿康排课表" + System.currentTimeMillis() + ".xlsx";
+        // 这里 需要指定写用哪个class去写
+        try (ExcelWriter excelWriter = EasyExcel.write(fileName, CourseExcelDto.class).build()) {
+            WriteSheet writeSheet = EasyExcel.writerSheet("模板").build();
+            excelWriter.write(excelDtoList, writeSheet);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<CourseExcelDto> queryAllCourse() {
         final List<CoursePo> coursePos = courseMapper.selectList(new QueryWrapper<>());
         final Map<String, List<CoursePo>> groupByCourseType =
                 coursePos.stream().collect(Collectors.groupingBy(CoursePo::getDoctorUserName));
@@ -214,15 +231,7 @@ public class CourseServiceImpl implements CourseService {
                             }
                             return courseExcelDto;
                         }).collect(Collectors.toList());
-
-        String fileName = TestFileUtil.getPath() + "儿康排课表" + System.currentTimeMillis() + ".xlsx";
-        // 这里 需要指定写用哪个class去写
-        try (ExcelWriter excelWriter = EasyExcel.write(fileName, CourseExcelDto.class).build()) {
-            WriteSheet writeSheet = EasyExcel.writerSheet("模板").build();
-            excelWriter.write(excelDtoList, writeSheet);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return excelDtoList;
     }
 
     private List<CoursePo> buildNullMomentList(List<CoursePo> coursePoList, ProjectEnum projectEnum) {
@@ -345,11 +354,17 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
-    public static LocalDateTime formDate(Date date) {
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+    public static LocalDateTime formDate(String date) {
+        Date date1 = null;
+        try {
+            date1 = DateUtils.parseDate(date, "HH:mm");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return LocalDateTime.ofInstant(date1.toInstant(), ZoneId.systemDefault());
     }
 
-    public static boolean intersection(CourseMomentEnum momentEnum, Date startTimeNew, Date endTimeNew) {
+    public static boolean intersection(CourseMomentEnum momentEnum, String startTimeNew, String endTimeNew) {
         if (startTimeNew == null || endTimeNew == null) {
             return false;
         }
@@ -422,7 +437,6 @@ public class CourseServiceImpl implements CourseService {
         courseUserPo.setHyperbaricOxygenStartTime(courseUserAddReq.getHyperbaricOxygenStartTime());
         courseUserPo.setHyperbaricOxygenEndTime(courseUserAddReq.getHyperbaricOxygenEndTime());
         courseUserPo.setLocation(courseUserAddReq.getLocation());
-        courseUserPo.setSort(courseUserAddReq.getSort());
         return courseUserPo;
     }
 }
