@@ -68,12 +68,12 @@ export default {
   methods: {
     init() {
       this.tableData = []
-      this.$axios.get("http://localhost:8080/category/one").then(r => {
+      this.$axios.get("http://localhost:9101/category/one").then(r => {
         console.log(r)
         let c = r.data.data;
         c.map(v => {
           this.$axios
-            .get("http://localhost:8080/category/two/" + v.id)
+            .get("http://localhost:9101/category/two/" + v.id)
             .then(rr => {
               this.tableData.push({
                 id: v.id,
@@ -91,7 +91,7 @@ export default {
     save() {
       this.$axios({
         method: "post",
-        url: "http://localhost:8080/category/add",
+        url: "http://localhost:9101/category/add",
         params: {
           categoryNo: this.editFormData.categoryNo,
           categoryName: this.editFormData.categoryName,
@@ -108,7 +108,7 @@ export default {
     },
     deleteById(v) {
       this.$axios
-        .delete("http://localhost:8080/category/delete/" + v.id)
+        .delete("http://localhost:9101/category/delete/" + v.id)
         .then(r => {
           if (r.data.code == 0) {
             this.$message({ message: "删除成功", type: "success" });

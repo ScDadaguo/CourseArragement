@@ -133,7 +133,7 @@ export default {
     searchCourse() {
       this.page = 1
       this.$axios
-        .get("http://localhost:8080/courseinfo/search/" + this.page + "/" + this.keyword)
+        .get("http://localhost:9101/courseinfo/search/" + this.page + "/" + this.keyword)
         .then(res => {
           let ret = res.data.data
           this.courseInfoData = ret.records
@@ -162,7 +162,7 @@ export default {
       this.type = 2 // 添加
       this.visibleForm = true
       // this.editFormData = {}
-      this.$axios.get("http://localhost:8080/courseinfo/get-no")
+      this.$axios.get("http://localhost:9101/courseinfo/get-no")
       .then(res => {
         if (res.data.code == 0) {
           // 获取课程编号
@@ -176,7 +176,7 @@ export default {
 
     // 添加教材
     add() {
-      this.$axios.post("http://localhost:8080/courseinfo/add", this.editFormData)
+      this.$axios.post("http://localhost:9101/courseinfo/add", this.editFormData)
       .then(res => {
         if (res.data.code == 0) {
           this.allCourseInfo()
@@ -193,7 +193,7 @@ export default {
     // 根据id删除教材信息
     deleteCourseInfoById(id) {
       this.$axios
-      .delete("http://localhost:8080/courseinfo/delete/" + id)
+      .delete("http://localhost:9101/courseinfo/delete/" + id)
       .then(res => {
         this.allCourseInfo()
         this.$message({message:'删除成功', type: 'success'})
@@ -206,7 +206,7 @@ export default {
     // 更新教材信息
     modifyCourseInfo(modifyData) {
       this.$axios
-        .post("http://localhost:8080/courseinfo/modify/" + this.editFormData.id, modifyData)
+        .post("http://localhost:9101/courseinfo/modify/" + this.editFormData.id, modifyData)
         .then(res => {
           this.$message({ message: "更新成功", type: "success" })
           this.allCourseInfo()
@@ -220,7 +220,7 @@ export default {
     // 分页查询所有教材信息
     allCourseInfo() {
       this.$axios
-        .get("http://localhost:8080/courseinfo/" + this.page)
+        .get("http://localhost:9101/courseinfo/" + this.page)
         .then(res => {
           let ret = res.data.data
           this.courseInfoData = ret.records

@@ -196,7 +196,7 @@ export default {
 
     // 提交添加题目
     commit() {
-      this.$axios.post("http://localhost:8080/addexercise", this.exerciseAdd)
+      this.$axios.post("http://localhost:9101/addexercise", this.exerciseAdd)
       .then(res => {
         if (res.data.code == 0) {
           this.visible2 = false;
@@ -216,7 +216,7 @@ export default {
     // 提交添加类别
     commitAdd() {
       this.$axios
-        .post("http://localhost:8080/exercise/add" + "?categoryName=" + this.categoryName)
+        .post("http://localhost:9101/exercise/add" + "?categoryName=" + this.categoryName)
         .then(res => {
           if (res.data.code == 0) {
             this.visible1 = false
@@ -235,7 +235,7 @@ export default {
     // 查询类别
     queryCategory() {
       this.$axios
-        .get("http://localhost:8080/exercise/categories")
+        .get("http://localhost:9101/exercise/categories")
         .then(res => {
           if (res.data.code == 0) {
             let ret = res.data.data;
@@ -253,7 +253,7 @@ export default {
     // 查询所有题目
     allExercise() {
       this.$axios
-        .get("http://localhost:8080/exercise/" + this.page)
+        .get("http://localhost:9101/exercise/" + this.page)
         .then(res => {
           if (res.data.code == 0) {
             this.type = 1
@@ -267,7 +267,7 @@ export default {
     // 分类查询
     queryExerciseByCategory() {
       this.$axios
-        .get("http://localhost:8080/exercise/" + this.value + "/" + this.page)
+        .get("http://localhost:9101/exercise/" + this.value + "/" + this.page)
         .then(res => {
           if (res.data.code == 0) {
             this.type = 2

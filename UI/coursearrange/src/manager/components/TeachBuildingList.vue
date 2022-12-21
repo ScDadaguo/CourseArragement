@@ -105,16 +105,16 @@ export default {
         // type = 2 添加
         this.newteachbuild(this.editFormData)
       }
-      
+
     },
 
     // 添加教学楼
     newteachbuild(modifyData) {
       alert('添加')
       console.log(modifyData);
-      
+
       this.$axios
-        .post("http://localhost:8080/teachbuildinfo/add", modifyData)
+        .post("http://localhost:9101/teachbuildinfo/add", modifyData)
         .then(res => {
           if (res.data.code == 0) {
             this.$message({ message: "添加成功", type: "success" })
@@ -152,7 +152,7 @@ export default {
      */
     modifyTeachBuild(modifyData) {
       this.$axios
-        .post("http://localhost:8080/teachbuildinfo/modify/" + this.editFormData.id, modifyData)
+        .post("http://localhost:9101/teachbuildinfo/modify/" + this.editFormData.id, modifyData)
         .then(res => {
           if (res.data.code == 0) {
             this.$message({ message: "更新成功", type: "success" })
@@ -170,7 +170,7 @@ export default {
     // 获取所有教学楼，带分页
     allTeachBuilding() {
       this.$axios
-        .get("http://localhost:8080/teachbuildinfo/list/" + this.page)
+        .get("http://localhost:9101/teachbuildinfo/list/" + this.page)
         .then(res => {
           if (res.data.code == 0) {
             let ret = res.data.data
@@ -190,7 +190,7 @@ export default {
      */
     deleteTeachBuildingById(id) {
       this.$axios
-        .delete("http://localhost:8080/teachbuildinfo/delete/" + id)
+        .delete("http://localhost:9101/teachbuildinfo/delete/" + id)
         .then(res => {
           if (res.data.code == 0) {
             this.allTeachBuilding()

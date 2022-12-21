@@ -9,7 +9,7 @@
 
       <el-form class="register-form" ref="regFormRef" :model="studentRegForm" :rules="studentRegRules">
         <h3>学生注册</h3>
-        <!-- 用户名 -->        
+        <!-- 用户名 -->
         <el-form-item prop="username">
         <el-input placeholder="请输入用户名"  v-model="studentRegForm.username" clearable></el-input>
         </el-form-item>
@@ -110,7 +110,7 @@ export default {
           grade: '',
           gradeName:''
       },
-  
+
       studentRegRules: {
         username: [
           { required: true, message: '请输入账号', trigger: 'blur' },
@@ -152,11 +152,11 @@ export default {
       // 已经有账号，跳转到登录界面
       window.location.href="http://localhost:8081/#/student/login"
     },
-    
+
     // 创建学号按钮响应，返回学号并填充到学号栏
     createStuNo() {
       // 把年级对应的编号this.studentRegForm.grade带过去
-      this.$axios.post('http://localhost:8080/student/createno/' + this.studentRegForm.grade,{
+      this.$axios.post('http://localhost:9101/student/createno/' + this.studentRegForm.grade,{
       })
       .then(res => {
         if (res.data.code == 0) {
@@ -175,7 +175,7 @@ export default {
       this.$refs.regFormRef.validate(valid => {
         if (!valid) return;
         // 进行注册， 携带填写的注册信息给后台
-        this.$axios.post('http://localhost:8080/student/register', {
+        this.$axios.post('http://localhost:9101/student/register', {
           username: this.studentRegForm.username,
           password: this.studentRegForm.password,
           realname: this.studentRegForm.realname,
@@ -235,7 +235,7 @@ export default {
     background: #2b4b6b;
     height: 100%;
   }
-  
+
   .select-grade {
     margin-top: 5px;
     float: left;
@@ -271,5 +271,5 @@ export default {
       background-color: #eee;
     }
   }
-  
+
 </style>

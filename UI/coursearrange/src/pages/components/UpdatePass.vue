@@ -23,28 +23,28 @@ export default {
     var validateOldPass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入旧密码'));
-      } 
+      }
       setTimeout(() => {
         if (this.passForm.oldPass !== '') {
           this.$refs.formRef.validateField('oldPass');
         }
         callback();
       })
-        
-      
+
+
     };
     var validateNewPass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入新密码'));
-      } 
+      }
       setTimeout(() => {
         if (this.passForm.newPass !== '') {
           this.$refs.formRef.validateField('newPass');
         }
         callback();
       })
-        
-      
+
+
     };
     var validateRePass = (rule, value, callback) => {
       if (value === '') {
@@ -123,18 +123,18 @@ export default {
         })
       }, 1000)
 
-      
+
       // 判断
       if (this.userType == 1) {
         // 管理员修改密码
-        let url = "http://localhost:8080/admin/password"
+        let url = "http://localhost:9101/admin/password"
         this.postForm(url)
       } else if (this.userType == 2) {
         // 讲师修改密码
-        let url = "http://localhost:8080/teacher/password"
+        let url = "http://localhost:9101/teacher/password"
         this.postForm(url)
       } else if (this.userType == 3) {
-        let url = "http://localhost:8080/student/password"
+        let url = "http://localhost:9101/student/password"
         this.postForm(url)
       }
   },

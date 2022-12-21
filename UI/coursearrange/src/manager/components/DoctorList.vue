@@ -2,140 +2,27 @@
   <div>
     <!-- 功能 -->
     <div class="header-menu">
-      <el-input placeholder="搜索病人" v-model="keyword" @clear="inputListener" clearable>
+      <el-input placeholder="搜索医生" v-model="keyword" @clear="inputListener" clearable>
         <el-button slot="append" type="primary" icon="el-icon-search" @click="searchStudent">搜索</el-button>
       </el-input>
-      <el-button type="primary" @click="addPatient()" class="addon">添加病人</el-button>
+<!--      <el-button type="primary" @click="addPatient()" class="addon">添加医生</el-button>-->
     </div>
     <!-- 数据显示 -->
-    <el-table :data="studentData" size="mini" :stripe="true" :highlight-current-row="true">
+    <el-table :data="doctorData" size="mini" :stripe="true" :highlight-current-row="true">
       <el-table-column label="序号" type="selection"></el-table-column>
       <!-- <el-table-column prop="id" label="ID"></el-table-column> -->
       <el-table-column prop="name" label="姓名" fixed width="100"></el-table-column>
-      <el-table-column prop="bedNumber" label="病床号" fixed width="100"></el-table-column>
       <el-table-column prop="phone" label="手机号" fixed width="100"></el-table-column>
       <el-table-column prop="responsibilities" label="治疗项目" fixed width="100"></el-table-column>
-      <el-table-column prop="hyperbaricOxygenStartTime" label="高压氧开始时间" fixed width="80"></el-table-column>
-      <el-table-column prop="hyperbaricOxygenEndTime" label="高压氧结束时间" fixed width="100"></el-table-column>
-      <el-table-column prop="location" label="上课位置" fixed width="150"></el-table-column>
 
-      <el-table-column prop="operation" label="操作">
-        <template slot-scope="scope">
-          <el-button type="danger" size="mini" @click="deleteById(scope.$index, scope.row)">删除</el-button>
-          <el-button type="primary" size="mini" @click="editById(scope.$index, scope.row)">编辑</el-button>
-        </template>
-      </el-table-column>
+<!--      <el-table-column prop="operation" label="操作">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button type="danger" size="mini" @click="deleteById(scope.$index, scope.row)">删除</el-button>-->
+<!--          <el-button type="primary" size="mini" @click="editById(scope.$index, scope.row)">编辑</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
 
-    <!-- 弹出表单编辑学生 -->
-    <el-dialog title="编辑学生" :visible.sync="visibleForm">
-      <el-form
-        :model="editFormData"
-        label-position="left"
-        label-width="80px"
-        :rules="editFormRules"
-      >
-        <el-form-item label="学号">
-          <el-input v-model="editFormData.studentNo" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="昵称" prop="username">
-          <el-input v-model="editFormData.username" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名" prop="realname">
-          <el-input v-model="editFormData.realname" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="年级" prop="grade">
-          <el-input v-model="editFormData.grade" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="班级" prop="classNo">
-          <el-input v-model="editFormData.classNo" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机" prop="telephone">
-          <el-input v-model="editFormData.telephone" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="邮件" prop="email">
-          <el-input v-model="editFormData.email" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="地址" prop="address">
-          <el-input v-model="editFormData.address" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model="editFormData.age" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="visibleForm = false">取 消</el-button>
-        <el-button type="primary" @click="commit()">提 交</el-button>
-      </div>
-    </el-dialog>
-
-    <!-- 弹出表单添加讲师 -->
-    <el-dialog title="添加病人" :visible.sync="visibleAddForm">
-      <el-form
-        :model="addPatientForm"
-        label-position="left"
-        label-width="80px"
-        :rules="addPatientRules"
-      >
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="addPatientForm.name" autocomplete="off" ></el-input>
-        </el-form-item>
-        <el-form-item label="病床号" prop="bedNumber">
-          <el-input v-model="addPatientForm.bedNumber" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="phone">
-          <el-input v-model="addPatientForm.phone" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="治疗项目" prop="responsibilities">
-<!--          <el-input v-model="addPatientForm.responsibilities" autocomplete="off"></el-input>-->
-          <el-select v-model="addPatientForm.responsibilities" multiple placeholder="请选择治疗项目">
-            <el-option
-              v-for="item in project"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="高压氧时间" prop="hyperbaricOxygenEndTime">
-          <el-time-select
-            placeholder="起始时间"
-            v-model="addPatientForm.hyperbaricOxygenStartTime"
-            :picker-options="{
-                start: '08:30',
-                step: '00:15',
-                end: '18:30'
-              }">
-          </el-time-select>
-          <el-time-select
-            placeholder="结束时间"
-            v-model="addPatientForm.hyperbaricOxygenEndTime"
-            :picker-options="{
-            start: '08:30',
-            step: '00:15',
-            end: '18:30',
-            minTime: addPatientForm.hyperbaricOxygenStartTime
-           }">
-          </el-time-select>
-        </el-form-item>
-
-        <el-form-item label="上课位置" prop="location">
-          <el-select v-model="addPatientForm.location" placeholder="请选择上课位置">
-            <el-option
-              v-for="item in locationType"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="visibleAddForm = false">取 消</el-button>
-        <el-button type="primary" @click="addCommit()">提 交</el-button>
-      </div>
-    </el-dialog>
 
     <!-- 上一页，当前页，下一页 -->
     <div class="footer-button">
@@ -153,10 +40,10 @@
 
 <script>
 export default {
-  name: "StudentList",
+  name: "DoctorList",
   data() {
     return {
-      studentData: [],
+      doctorData: [],
       editFormData: [],
       keyword: "",
       page: 1,
@@ -333,24 +220,6 @@ export default {
         });
     },
 
-    // 根据班级查询学生信息
-    queryStudentByClass() {
-      this.$axios
-        .get(
-          "http://localhost:9101/student-class/" + this.page + "/" + this.value2
-        )
-        .then(res => {
-          console.log(res)
-          if (res.data.code == 0) {
-            let ret = res.data.data
-            this.studentData = ret.records
-            this.total = ret.total
-          }
-        })
-        .catch(error => {
-
-        });
-    },
 
     /***
      * 编辑提交
@@ -364,14 +233,14 @@ export default {
     },
 
     /**
-     * 查询所有学生
+     * 查询所有医生
      */
     allStudent() {
       this.$axios
-        .get("http://localhost:9101/course/queryAllPatients/" + this.page)
+        .get("http://localhost:9101/course/queryAllDoctors/" + this.page)
         .then(res => {
           let ret = res.data.data
-          this.studentData = ret.records
+          this.doctorData = ret.records
           this.total = ret.total
           // this.$message({message:'查询成功', type: 'success'})
         })
@@ -388,7 +257,7 @@ export default {
         .get("http://localhost:9101/student/search/" + this.keyword)
         .then(res => {
           let ret = res.data.data
-          this.studentData = ret.records
+          this.doctorData = ret.records
           this.total = ret.total
           this.$message({message: "查询成功", type: "success"})
         })

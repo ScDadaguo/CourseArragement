@@ -21,6 +21,8 @@ import StudentCenter from '@/home/components/Center';
 import StudentPassword from '@/home/components/Password';
 import CourseInfoList from '@/manager/components/CourseInfoList';
 import StudentList from '@/manager/components/StudentList';
+import DoctorList from '@/manager/components/DoctorList';
+import MachineList from '@/manager/components/MachineList';
 import ClassTaskList from '@/manager/components/ClassTaskList';
 import ClassManager from '@/manager/components/ClassManager';
 import UpdatePass from '@/pages/components/UpdatePass';
@@ -37,7 +39,7 @@ const router = new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      meta: { 
+      meta: {
         noRequireAuth: true
       },
     },
@@ -45,7 +47,7 @@ const router = new Router({
       path: '/student/login',
       name: 'Login',
       component: Login,
-      meta: { 
+      meta: {
         noRequireAuth: true
       },
     },
@@ -53,7 +55,7 @@ const router = new Router({
       path: '/student/register',
       name: 'Register',
       component: Register,
-      meta: { 
+      meta: {
         noRequireAuth: true
       },
     },
@@ -61,7 +63,7 @@ const router = new Router({
       path: '/admin/login',
       name: 'AdminLogin',
       component: Admin,
-      meta: { 
+      meta: {
         noRequireAuth: true
       },
     },
@@ -69,11 +71,11 @@ const router = new Router({
       path: '/student',
       name: 'Student',
       component: StudentMain,
-      meta: { 
+      meta: {
         noRequireAuth: true
       },
       children: [
-        
+
         {
           path: '/emptyclassroom',
           name: 'EmptyClassroom',
@@ -140,6 +142,16 @@ const router = new Router({
           path: '/studentlist',
           name: 'StudentList',
           component: StudentList
+        },
+        {
+          path: '/doctorList',
+          name: 'DoctorList',
+          component: DoctorList
+        },
+        {
+          path: '/machineList',
+          name: 'MachineList',
+          component: MachineList
         },
         {
           path: '/teachbuildinglist',

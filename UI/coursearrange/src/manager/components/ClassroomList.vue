@@ -110,8 +110,8 @@ export default {
       } else {
         alert('添加')
         this.addClassroom(this.editFormData)
-      } 
-      
+      }
+
     },
 
     deleteById(index, row) {
@@ -137,7 +137,7 @@ export default {
      */
     addClassroom(modifyData) {
       this.$axios
-        .post("http://localhost:8080/classroom/add", modifyData)
+        .post("http://localhost:9101/classroom/add", modifyData)
         .then(res => {
           if (res.data.code == 0) {
             this.$message({ message: "添加成功", type: "success" })
@@ -146,7 +146,7 @@ export default {
           } else {
             this.$message.error(res.data.message)
           }
-          
+
         })
         .catch(error => {
           this.$message.error("更新失败")
@@ -158,7 +158,7 @@ export default {
      */
     modifyClassroom(modifyData) {
       this.$axios
-        .post("http://localhost:8080/modify", modifyData)
+        .post("http://localhost:9101/modify", modifyData)
         .then(res => {
           if (res.data.code == 0) {
             this.$message({ message: "更新成功", type: "success" })
@@ -178,7 +178,7 @@ export default {
      */
     deleteClassroomById(id) {
       this.$axios
-        .delete("http://localhost:8080/classroom/delete/" + id)
+        .delete("http://localhost:9101/classroom/delete/" + id)
         .then(res => {
           if (res.data.code == 0) {
             this.allClassroom();
@@ -195,7 +195,7 @@ export default {
     // 获取所有教室，带分页
     allClassroom() {
       this.$axios
-        .get("http://localhost:8080/classroom/" + this.page)
+        .get("http://localhost:9101/classroom/" + this.page)
         .then(res => {
           console.log(res)
           if (res.data.code == 0) {

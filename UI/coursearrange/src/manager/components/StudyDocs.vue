@@ -5,7 +5,7 @@
       <!-- <el-select>
 
       </el-select> -->
-      
+
       <el-button type="primary" @click="addDocs()">新增</el-button>
     </div>
 
@@ -47,7 +47,7 @@
       class="add-button"
         ref="upload"
         accept=".doc, .docx, .pdf, .jpeg, .png, .jpg"
-        action="http://localhost:8080/uploaddocs"
+        action="http://localhost:9101/uploaddocs"
         :on-success="uploadSuccess"
         :disabled="importBtnDisabled"
         :file-list="fileList"
@@ -123,10 +123,10 @@ export default {
 
     addDocs() {
       this.visible = true
-      
+
     },
 
-    
+
 
     // 获得上传的用户类型
     getUserType() {
@@ -159,7 +159,7 @@ export default {
       this.getUserType()
       // this.$refs.upload.submit()
       // 提交input信息
-      this.$axios.post("http://localhost:8080/adddocs", this.addDocData)
+      this.$axios.post("http://localhost:9101/adddocs", this.addDocData)
       .then(res => {
         if (res.data.code == 0) {
           this.addDocData = {}
@@ -172,25 +172,25 @@ export default {
         }
       })
       .catch(error => {
-        
+
       })
     },
 
     // 所有文档
     allDocs() {
-      this.$axios.get("http://localhost:8080/docs/" + this.page)
+      this.$axios.get("http://localhost:9101/docs/" + this.page)
       .then(res => {
         if (res.data.code == 0) {
           let ret = res.data.data
           this.docData = ret.records
           this.total = ret.total
-          
+
         } else {
           this.$message.error(res.data.message)
         }
       })
       .catch(error => {
-        
+
       })
     },
 
@@ -202,7 +202,7 @@ export default {
 
     deleteById(index, row) {
       alert(row.id)
-      this.$axios.delete("http://localhost:8080/deletedoc?id=" + row.id)
+      this.$axios.delete("http://localhost:9101/deletedoc?id=" + row.id)
       .then(res => {
         if (res.data.code == 0) {
           // 删除成功
@@ -231,11 +231,11 @@ export default {
 
     },
 
-    uploadSuccess(response, file, fileList) {      
+    uploadSuccess(response, file, fileList) {
       this.importBtnDisabled = false
       this.addDocData.docName = response.data.name
       this.addDocData.docUrl = response.data.url
-      
+
     }
   }
 };

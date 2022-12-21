@@ -1,6 +1,6 @@
 <template>
   <div class="login-wrapper">
-    
+
     <div class="login-box">
       <!-- 头像 -->
       <div class="login-avatar">
@@ -25,7 +25,7 @@
             <el-radio v-model="radio" label="2" @change="getType()">讲师</el-radio>
           </template>
         </el-form-item>
-        
+
         <!-- 按钮 -->
         <el-form-item class="button">
           <el-button type="primary" @click="login">登录</el-button>
@@ -68,14 +68,14 @@ export default {
     getType() {
       // 调用这个方法直接获取到了类型
     },
-    
+
     login() {
       this.$refs.loginFormRef.validate(valid => {
         // 表单预验证
         if (!valid) return;
         if (this.radio == 1) {
           // 管理员登录
-          this.$axios.post('http://localhost:8080/admin/login', {
+          this.$axios.post('http://localhost:9101/admin/login', {
             username: this.adminLoginForm.username,
             password: this.adminLoginForm.password
           })
@@ -96,7 +96,7 @@ export default {
           });
         } else if(this.radio == 2) {
           // 讲师登录
-          this.$axios.post('http://localhost:8080/teacher/login', {
+          this.$axios.post('http://localhost:9101/teacher/login', {
             username: this.adminLoginForm.username,
             password: this.adminLoginForm.password
           })
@@ -182,6 +182,6 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
   }
-  
-  
+
+
 </style>

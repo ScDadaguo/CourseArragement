@@ -72,7 +72,7 @@ export default {
     save() {
       this.$axios
         .post(
-          "http://localhost:8080/student/join/" +
+          "http://localhost:9101/student/join/" +
             this.form.id +
             "/" +
             this.editFormData.classNo
@@ -91,7 +91,7 @@ export default {
     },
     saveInfo() {
       this.$axios
-        .post("http://localhost:8080/student/modify/", this.form)
+        .post("http://localhost:9101/student/modify/", this.form)
         .then(r => {
           if (r.data.code == 0) {
             this.$message({
@@ -106,7 +106,7 @@ export default {
       let grade = this.form.studentNo.substring(4, 6);
       this.options = [];
       this.visibleForm = true;
-      this.$axios.get("http://localhost:8080/class-grade/" + grade).then(r => {
+      this.$axios.get("http://localhost:9101/class-grade/" + grade).then(r => {
         let data = r.data.data;
         data.map(v => {
           this.options.push({

@@ -132,7 +132,7 @@ export default {
   methods: {
     // 提交添加班级
     commit() {
-      this.$axios.post("http://localhost:8080/addclassinfo", this.addClassData)
+      this.$axios.post("http://localhost:9101/addclassinfo", this.addClassData)
       .then(res => {
         if (res.data.code == 0) {
           this.allClassInfo()
@@ -155,7 +155,7 @@ export default {
 
     // 查询所有讲师
     allTeacher() {
-      this.$axios.get("http://localhost:8080/teacher/all")
+      this.$axios.get("http://localhost:9101/teacher/all")
       .then(res => {
         console.log(res)
         if (res.data.code == 0) {
@@ -186,7 +186,7 @@ export default {
     queryClassByGrade() {
       this.$axios
         .get(
-          "http://localhost:8080/queryclassinfo/" +
+          "http://localhost:9101/queryclassinfo/" +
             this.page +
             "?gradeNo=" +
             this.value1
@@ -204,7 +204,7 @@ export default {
     // 分页查询所有班级
     allClassInfo() {
       this.$axios
-        .get("http://localhost:8080/queryclassinfo/" + this.page)
+        .get("http://localhost:9101/queryclassinfo/" + this.page)
         .then(res => {
           if (res.data.code == 0) {
             let ret = res.data.data;

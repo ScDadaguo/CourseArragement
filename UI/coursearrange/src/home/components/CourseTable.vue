@@ -104,7 +104,7 @@ export default {
         );
       });
       this.$axios
-        .get("http://localhost:8080/courseplan/" + this.value3)
+        .get("http://localhost:9101/courseplan/" + this.value3)
         .then(res => {
           console.log(res);
           let courseData = res.data.data;

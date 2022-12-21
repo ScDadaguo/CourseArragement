@@ -91,7 +91,7 @@ export default {
 
     // 根据教学楼编号查询空教室
     queryByNo(teachbuildNo) {
-      this.$axios.get("http://localhost:8080/classroom/empty/" + teachbuildNo)
+      this.$axios.get("http://localhost:9101/classroom/empty/" + teachbuildNo)
       .then(res => {
         console.log(res)
         if (res.data.code == 0) {
@@ -106,7 +106,7 @@ export default {
     // 查询所有教学楼
     queryTeachbuild() {
       this.$axios
-        .get("http://localhost:8080/teachbuildinfo/list")
+        .get("http://localhost:9101/teachbuildinfo/list")
         .then(res => {
           console.log(res);
           if (res.data.code == 0) {

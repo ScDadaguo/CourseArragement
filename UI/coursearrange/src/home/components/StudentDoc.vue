@@ -71,7 +71,7 @@ export default {
       } else {
         this.$axios
           .get(
-            "http://localhost:8080/docs-class/" +
+            "http://localhost:9101/docs-class/" +
               this.page +
               "/" +
               this.toClassNo

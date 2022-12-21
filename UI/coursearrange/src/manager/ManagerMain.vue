@@ -34,55 +34,66 @@
               <template slot="title">
                 <i class="el-icon-s-data"></i>排课管理
               </template>
-              <el-menu-item index="1-1" v-if="!isTeacher">
-                <router-link to="/classtasklist" class="links">课程计划</router-link>
-              </el-menu-item>
+<!--              <el-menu-item index="1-1" v-if="!isTeacher">-->
+<!--                <router-link to="/classtasklist" class="links">课程计划</router-link>-->
+<!--              </el-menu-item>-->
               <el-menu-item index="1-2">
                 <router-link to="/coursetable" class="links">查看课表</router-link>
               </el-menu-item>
             </el-submenu>
 
-            <el-submenu index="2">
+<!--            <el-submenu index="2">-->
+<!--              <template slot="title">-->
+<!--                <i class="el-icon-reading"></i>课程管理-->
+<!--              </template>-->
+<!--              <el-menu-item index="2-1">-->
+<!--                <router-link to="/onlinecourse" class="links">网课列表</router-link>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item index="2-2">-->
+<!--                <router-link to="/onlinecategory" class="links">网课类别</router-link>-->
+<!--              </el-menu-item>-->
+<!--            </el-submenu>-->
+
+            <el-submenu index="2" >
               <template slot="title">
-                <i class="el-icon-reading"></i>课程管理
+                <i class="el-icon-user"></i>医生管理
               </template>
-              <el-menu-item index="2-1">
-                <router-link to="/onlinecourse" class="links">网课列表</router-link>
-              </el-menu-item>
-              <el-menu-item index="2-2">
-                <router-link to="/onlinecategory" class="links">网课类别</router-link>
-              </el-menu-item>
+              <el-menu-item-group>
+                <el-menu-item index="2-1">
+                  <router-link to="/doctorList" class="links">所有医生</router-link>
+                </el-menu-item>
+              </el-menu-item-group>
             </el-submenu>
 
-            <el-submenu index="3" v-if="!isTeacher">
+            <el-submenu index="3" >
               <template slot="title">
-                <i class="el-icon-user"></i>讲师管理
+                <i class="el-icon-user"></i>理疗管理
               </template>
               <el-menu-item-group>
                 <el-menu-item index="3-1">
-                  <router-link to="/teacherlist" class="links">所有讲师</router-link>
+                  <router-link to="/machineList" class="links">所有理疗</router-link>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
             <el-submenu index="4">
               <template slot="title">
-                <i class="el-icon-box"></i>班级管理
+                <i class="el-icon-user"></i>病人管理
               </template>
               <el-menu-item-group>
                 <el-menu-item index="4-1">
-                  <router-link to="/classmanager" class="links">所有班级</router-link>
+                  <router-link to="/studentlist" class="links">所有病人</router-link>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
 
             <el-submenu index="5">
               <template slot="title">
-                <i class="el-icon-user"></i>学生管理
+                <i class="el-icon-box"></i>病房管理
               </template>
               <el-menu-item-group>
                 <el-menu-item index="5-1">
-                  <router-link to="/studentlist" class="links">所有学生</router-link>
+                  <router-link to="/classmanager" class="links">所有病房</router-link>
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -102,28 +113,28 @@
               </el-menu-item>
             </el-submenu>
 
-            <el-submenu index="7" v-if="!isTeacher">
-              <template slot="title">
-                <i class="el-icon-office-building"></i>教学设施
-              </template>
-              <el-menu-item index="7-1">
-                <router-link class="links" to="/teachbuildinglist">教学楼管理</router-link>
-              </el-menu-item>
-              <el-menu-item index="7-2">
-                <router-link to="/classroomlist" class="links">教室列表</router-link>
-              </el-menu-item>
-              <el-menu-item index="7-3">
-                <router-link to="/setteacharea" class="links">教学区域安排</router-link>
-              </el-menu-item>
-            </el-submenu>
-            <el-submenu index="8">
-              <template slot="title">
-                <i class="el-icon-help"></i>帮助中心
-              </template>
-              <el-menu-item index="8-1">
-                <router-link to="/help" class="links" >使用说明</router-link>
-              </el-menu-item>
-            </el-submenu>
+<!--            <el-submenu index="7" v-if="!isTeacher">-->
+<!--              <template slot="title">-->
+<!--                <i class="el-icon-office-building"></i>教学设施-->
+<!--              </template>-->
+<!--              <el-menu-item index="7-1">-->
+<!--                <router-link class="links" to="/teachbuildinglist">教学楼管理</router-link>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item index="7-2">-->
+<!--                <router-link to="/classroomlist" class="links">教室列表</router-link>-->
+<!--              </el-menu-item>-->
+<!--              <el-menu-item index="7-3">-->
+<!--                <router-link to="/setteacharea" class="links">教学区域安排</router-link>-->
+<!--              </el-menu-item>-->
+<!--            </el-submenu>-->
+<!--            <el-submenu index="8">-->
+<!--              <template slot="title">-->
+<!--                <i class="el-icon-help"></i>帮助中心-->
+<!--              </template>-->
+<!--              <el-menu-item index="8-1">-->
+<!--                <router-link to="/help" class="links" >使用说明</router-link>-->
+<!--              </el-menu-item>-->
+<!--            </el-submenu>-->
           </el-menu>
         </el-aside>
 
@@ -158,7 +169,7 @@ export default {
     setInterval(() => {
       this.getTime();
     }, 1000);
-    
+
     let admin = window.localStorage.getItem('admin')
     if(admin != null){
       this.name = (JSON.parse(admin)).realname
@@ -186,7 +197,7 @@ export default {
         // 修改密码页面
         this.$router.push('/updatepass')
       }
-      
+
     },
 
     // 获取系统时间

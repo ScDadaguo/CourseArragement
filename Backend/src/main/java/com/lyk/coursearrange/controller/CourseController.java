@@ -10,6 +10,7 @@ import com.lyk.coursearrange.entity.dto.CourseExcelDto;
 import com.lyk.coursearrange.entity.po.CourseUserPo;
 import com.lyk.coursearrange.entity.request.CourseUserAddReq;
 import com.lyk.coursearrange.entity.response.CourseUserView;
+import com.lyk.coursearrange.enums.CourseUserTypeEnum;
 import com.lyk.coursearrange.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,35 @@ public class CourseController {
                                                          @RequestParam(defaultValue = "10") Integer limit) {
         Page<CourseUserPo> pages = new Page<>(pageSize, limit);
         QueryWrapper<CourseUserPo> wrapper = new QueryWrapper<CourseUserPo>()
-                .eq("user_type", 2)
+                .eq("user_type", CourseUserTypeEnum.PATIENT.getCode())
+                .orderByDesc("date_update");
+        IPage<CourseUserPo> courseUserPoIPage = courseUserMapper.selectPage(pages, wrapper);
+        return Result.ofSuccess(convertToPage(courseUserPoIPage));
+    }
+
+    /**
+     * 查询所有医生
+     */
+    @GetMapping("/course/queryAllDoctors/{pageSize}")
+    public Result<Page<CourseUserView>> queryAllDoctors(@PathVariable("pageSize") Integer pageSize,
+                                                         @RequestParam(defaultValue = "10") Integer limit) {
+        Page<CourseUserPo> pages = new Page<>(pageSize, limit);
+        QueryWrapper<CourseUserPo> wrapper = new QueryWrapper<CourseUserPo>()
+                .eq("user_type", CourseUserTypeEnum.DOCTOR.getCode())
+                .orderByDesc("date_update");
+        IPage<CourseUserPo> courseUserPoIPage = courseUserMapper.selectPage(pages, wrapper);
+        return Result.ofSuccess(convertToPage(courseUserPoIPage));
+    }
+
+    /**
+     * 查询所有理疗机器
+     */
+    @GetMapping("/course/queryAllMachines/{pageSize}")
+    public Result<Page<CourseUserView>> queryAllMachines(@PathVariable("pageSize") Integer pageSize,
+                                                        @RequestParam(defaultValue = "10") Integer limit) {
+        Page<CourseUserPo> pages = new Page<>(pageSize, limit);
+        QueryWrapper<CourseUserPo> wrapper = new QueryWrapper<CourseUserPo>()
+                .eq("user_type", CourseUserTypeEnum.MACHINE.getCode())
                 .orderByDesc("date_update");
         IPage<CourseUserPo> courseUserPoIPage = courseUserMapper.selectPage(pages, wrapper);
         return Result.ofSuccess(convertToPage(courseUserPoIPage));

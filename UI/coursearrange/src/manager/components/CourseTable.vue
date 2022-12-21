@@ -1,26 +1,26 @@
 <template>
   <div class="class-table">
-    <div class="top-select">
-      <el-select v-model="value1" placeholder="学期">
-        <el-option
-          v-for="item in semester"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-      <el-select v-model="value2" placeholder="年级" @change="queryClass">
-        <el-option v-for="item in grade" :key="item.value" :label="item.label" :value="item.value"></el-option>
-      </el-select>
-      <el-select v-model="value3" placeholder="班级" @change="queryCoursePlan">
-        <el-option
-          v-for="item in classNo"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-    </div>
+<!--    <div class="top-select">-->
+<!--      <el-select v-model="value1" placeholder="学期">-->
+<!--        <el-option-->
+<!--          v-for="item in semester"-->
+<!--          :key="item.value"-->
+<!--          :label="item.label"-->
+<!--          :value="item.value"-->
+<!--        ></el-option>-->
+<!--      </el-select>-->
+<!--      <el-select v-model="value2" placeholder="年级" @change="queryClass">-->
+<!--        <el-option v-for="item in grade" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+<!--      </el-select>-->
+<!--      <el-select v-model="value3" placeholder="班级" @change="queryCoursePlan">-->
+<!--        <el-option-->
+<!--          v-for="item in classNo"-->
+<!--          :key="item.value"-->
+<!--          :label="item.label"-->
+<!--          :value="item.value"-->
+<!--        ></el-option>-->
+<!--      </el-select>-->
+<!--    </div>-->
     <div class="table-wrapper">
       <div class="tabel-container">
 
@@ -200,7 +200,7 @@ export default {
     // 查询班级编号，班级名
     queryClass() {
       this.$axios
-        .get("http://localhost:8080/class-grade/" + this.value2)
+        .get("http://localhost:9101/class-grade/" + this.value2)
         .then(res => {
           //alert(this.value2)
           let r = res.data.data;
@@ -224,7 +224,7 @@ export default {
       //   this.classTableData.courses[index].splice(0, this.classTableData.courses[index].length)
       // })
       this.$axios
-        .get("http://localhost:8080/course/queryAllCourse")
+        .get("http://localhost:9101/course/queryAllCourse")
         .then(res => {
           console.log(res)
           this.courseData = res.data.data

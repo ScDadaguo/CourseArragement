@@ -97,7 +97,7 @@
         <el-form-item label="上传封面">
           <el-upload
             class="upload-demo"
-            action="http://localhost:8080/onlinevideo/upload"
+            action="http://localhost:9101/onlinevideo/upload"
             :on-success="handleCourseCoverSuccess"
           >
             <el-button size="small" type="primary">点击上传</el-button>
@@ -119,7 +119,7 @@
         <el-form-item label="上传封面">
           <el-upload
             class="upload-demo"
-            action="http://localhost:8080/onlinevideo/upload"
+            action="http://localhost:9101/onlinevideo/upload"
             :on-success="handleVideoCoverSuccess"
           >
             <el-button size="small" type="primary">点击上传</el-button>
@@ -128,7 +128,7 @@
         <el-form-item label="上传视频">
           <el-upload
             class="upload-demo"
-            action="http://localhost:8080/onlinevideo/upload"
+            action="http://localhost:9101/onlinevideo/upload"
             :on-success="handleVideoUploadSuccess"
           >
             <el-button size="small" type="primary">点击上传</el-button>
@@ -191,11 +191,11 @@ export default {
   methods: {
     init() {
       this.options = [];
-      this.$axios.get("http://localhost:8080/category/one").then(r => {
+      this.$axios.get("http://localhost:9101/category/one").then(r => {
         let c = r.data.data;
         c.map(v => {
           this.$axios
-            .get("http://localhost:8080/category/two/" + v.id)
+            .get("http://localhost:9101/category/two/" + v.id)
             .then(rr => {
               this.options.push({
                 id: v.id,
@@ -217,7 +217,7 @@ export default {
       let cid = this.cascader[1];
       this.$axios
         .get(
-          "http://localhost:8080/onlinecourse/get-list/" +
+          "http://localhost:9101/onlinecourse/get-list/" +
             cid +
             "/" +
             this.page +
@@ -235,7 +235,7 @@ export default {
       let courseId = row.id;
       console.log(row.id)
       this.$axios
-        .get("http://localhost:8080/onlinevideo/get/" + courseId)
+        .get("http://localhost:9101/onlinevideo/get/" + courseId)
         .then(r => {
           this.videoData = r.data.data;
         });
@@ -253,7 +253,7 @@ export default {
     },
     handleVideoDelete(row) {
       this.$axios
-        .delete("http://localhost:8080/onlinevideo/delete/" + row.id)
+        .delete("http://localhost:9101/onlinevideo/delete/" + row.id)
         .then(r => {
           if (r.data.code == 0) {
             this.$message({ message: "删除成功", type: "success" });
@@ -271,7 +271,7 @@ export default {
       data.onlineCategoryId = data.cid[1];
       data.onlineCategoryName = node.label;
       this.$axios
-        .post("http://localhost:8080/onlinecourse/add", data)
+        .post("http://localhost:9101/onlinecourse/add", data)
         .then(r => {
           if (r.data.code == 0) {
             this.$message({ message: "上传成功", type: "success" });
@@ -287,7 +287,7 @@ export default {
       data.realname = this.uu.fromUserName;
 
       this.$axios
-        .post("http://localhost:8080/onlinevideo/add", data)
+        .post("http://localhost:9101/onlinevideo/add", data)
         .then(r => {
           if (r.data.code == 0) {
             this.$message({ message: "上传成功", type: "success" });
@@ -311,7 +311,7 @@ export default {
         limit: 100
       };
       this.$axios
-        .get("http://localhost:8080/onlinecourse/list/" + 1, params)
+        .get("http://localhost:9101/onlinecourse/list/" + 1, params)
         .then(r => {
           let records = r.data.data.records;
           this.courseOptions = [];

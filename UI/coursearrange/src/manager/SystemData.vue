@@ -15,7 +15,7 @@ export default {
 
   mounted() {
     this.systemData()
-  
+
   },
   computed: {
 
@@ -24,7 +24,7 @@ export default {
     // 获取系统数据
     systemData() {
       this.$axios
-        .get("http://localhost:8080/systemdata")
+        .get("http://localhost:9101/systemdata")
         .then(res => {
           if (res.data.code == 0) {
             let ret = res.data.data
@@ -104,7 +104,7 @@ export default {
   margin:0;
   padding:0;
   position:absolute;
-  width: 85%; 
+  width: 85%;
 	height: 80%;
 }
 </style>

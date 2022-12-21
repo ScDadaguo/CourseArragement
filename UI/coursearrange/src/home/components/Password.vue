@@ -44,7 +44,7 @@ export default {
       data.id = this.student.id;
       this.$axios
         .post(
-          "http://localhost:8080/student/password",
+          "http://localhost:9101/student/password",
           data
         )
         .then(r => {

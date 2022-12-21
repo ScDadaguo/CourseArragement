@@ -35,7 +35,7 @@ mybatis-plus:
       logic-not-delete-value: 0 #不删除
 
 server:
-  port: 8080
+  port: 9101
 
 
 # 阿里云OSS

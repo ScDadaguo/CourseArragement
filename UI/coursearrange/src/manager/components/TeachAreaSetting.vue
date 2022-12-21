@@ -119,7 +119,7 @@ export default {
         alert("请选择再提交");
       } else {
         this.$axios
-          .post("http://localhost:8080/setteacharea", {
+          .post("http://localhost:9101/setteacharea", {
             teachBuildNo: this.addForm.value2,
             gradeNo: this.addForm.value1
           })
@@ -154,7 +154,7 @@ export default {
     // 所有区域安排
     allLocation() {
       this.$axios
-        .get("http://localhost:8080/locations/" + this.page)
+        .get("http://localhost:9101/locations/" + this.page)
         .then(res => {
           if (res.data.code == 0) {
             let ret = res.data.data;
@@ -168,7 +168,7 @@ export default {
     // 获取教学楼信息
     queryTeachbuild() {
       this.$axios
-        .get("http://localhost:8080/teachbuildinfo/list")
+        .get("http://localhost:9101/teachbuildinfo/list")
         .then(res => {
           if (res.data.code == 0) {
             let ret = res.data.data;
@@ -195,7 +195,7 @@ export default {
 
     deleteById(index, row) {
       this.$axios
-        .delete("http://localhost:8080/location/delete/" + row.id)
+        .delete("http://localhost:9101/location/delete/" + row.id)
         .then(res => {
           if (res.data.code == 0) {
             this.allLocation();

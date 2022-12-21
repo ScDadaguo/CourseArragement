@@ -12,14 +12,14 @@
         >
           <el-option v-for="(item,index) in semesterData" :key="index" :value="item"></el-option>
         </el-select>
-        
+
         <!-- 添加课程计划 -->
         <div>
           <el-upload
             class="add-button"
             ref="upload"
             accept=".xls,.xlsx"
-            action="http://localhost:8080/upload"
+            action="http://localhost:9101/upload"
             :on-remove="handleRemove"
             :on-error="handleError"
             :on-success="uploadSuccess"
@@ -31,7 +31,7 @@
             <el-button style="margin-left: 10px;" slot="trigger" size="small" type="primary">从Excel导入<i class="el-icon-upload2 el-icon--right"></i></el-button>
             <el-button style="margin-left: 10px;" size="small" type="success" :loading="loading" @click="submitUpload">上传到服务器<i class="el-icon-upload el-icon--right"></i></el-button>
             <el-button class="add-button" size="small" type="primary" @click="addClassTask()">手动添加</el-button>
-            <!-- 下载模板 <a class="atag" href="http://localhost:8080/download">-->
+            <!-- 下载模板 <a class="atag" href="http://localhost:9101/download">-->
             <el-button class="add-button" size="small" type="primary" @click="downloadTemplate()">
               下载模板
               <i class="el-icon-download el-icon--right"></i>
@@ -198,7 +198,7 @@ export default {
 
     // 提交添加
     commit() {
-      this.$axios.post("http://localhost:8080/addclasstask", this.addClassTaskForm)
+      this.$axios.post("http://localhost:9101/addclasstask", this.addClassTaskForm)
       .then(res => {
         if (res.data.code == 0) {
           // 添加完成
@@ -221,7 +221,7 @@ export default {
 
     // 点击开始提交学期到系统后台排课
     arrangeCourse() {
-      this.$axios.post("http://localhost:8080/arrange/" + this.semester)
+      this.$axios.post("http://localhost:9101/arrange/" + this.semester)
       .then(res => {
         if (res.data.code == 0) {
           this.allClassTask()
@@ -239,7 +239,7 @@ export default {
 
     // 下载模板
     downloadTemplate() {
-      window.location.href = 'http://localhost:8080/download'
+      window.location.href = 'http://localhost:9101/download'
     },
 
     // 上传成功
@@ -267,7 +267,7 @@ export default {
     handleSelectChange(val) {
       // 这里的V就是选择的学期了
       this.semester = val
-      
+
     },
 
     deleteById(index, row) {
@@ -275,7 +275,7 @@ export default {
     },
 
     editById(index, row) {
-      
+
     },
 
     handleSizeChange() {},
@@ -291,7 +291,7 @@ export default {
      */
     getSemester() {
       this.$axios
-        .get("http://localhost:8080/semester")
+        .get("http://localhost:9101/semester")
         .then(res => {
           let ret = res.data.data
           this.semesterData = ret
@@ -307,7 +307,7 @@ export default {
     allClassTask() {
       this.$axios
         .get(
-          "http://localhost:8080/classtask/" + this.page + "/" + this.semester
+          "http://localhost:9101/classtask/" + this.page + "/" + this.semester
         )
         .then(res => {
           let ret = res.data.data
@@ -327,7 +327,7 @@ export default {
      */
     deleteClassTaskById(id) {
       this.$axios
-        .delete("http://localhost:8080/deleteclasstask/" + id)
+        .delete("http://localhost:9101/deleteclasstask/" + id)
         .then(res => {
           this.allClassTask();
           this.$message({ message: "删除成功", type: "success" })

@@ -30,7 +30,7 @@
           ></el-image>
           <el-upload
             v-else
-            :action="'http://localhost:8080/teacher/upload/' + scope.row.id"
+            :action="'http://localhost:9101/teacher/upload/' + scope.row.id"
             :on-success="handleUploadSuccess"
           >
             <i class="el-icon-upload2" style="cursor:pointer"></i>
@@ -195,7 +195,7 @@ export default {
     addTeacher() {
       // 在弹出添加表单之前从后台获取讲师的编号
       this.$axios
-        .get("http://localhost:8080/teacher/no")
+        .get("http://localhost:9101/teacher/no")
         .then(res => {
           if (res.data.code == 0) {
             let number = parseInt(res.data.message) + 1;
@@ -211,7 +211,7 @@ export default {
     addCommit() {
       console.log(this.addTeacherForm);
       this.$axios
-        .post("http://localhost:8080/teacher/add", this.addTeacherForm)
+        .post("http://localhost:9101/teacher/add", this.addTeacherForm)
         .then(res => {
           if (res.data.code == 0) {
             this.allTeacher();
@@ -260,7 +260,7 @@ export default {
      */
     modifyTeacher(modifyData) {
       this.$axios
-        .post("http://localhost:8080/teacher/modify", modifyData)
+        .post("http://localhost:9101/teacher/modify", modifyData)
         .then(res => {
           this.$message({ message: "更新成功", type: "success" });
           this.allTeacher();
@@ -278,7 +278,7 @@ export default {
       this.page = 1;
       this.$axios
         .get(
-          "http://localhost:8080/teacher/search/" +
+          "http://localhost:9101/teacher/search/" +
             this.page +
             "/" +
             this.keyword
@@ -300,7 +300,7 @@ export default {
      */
     deleteTeacherById(id) {
       this.$axios
-        .delete("http://localhost:8080/teacher/delete/" + id)
+        .delete("http://localhost:9101/teacher/delete/" + id)
         .then(res => {
           this.allTeacher();
           this.$message({ message: "删除成功", type: "success" });
@@ -315,7 +315,7 @@ export default {
      */
     allTeacher() {
       this.$axios
-        .get("http://localhost:8080/teacher/query/" + this.page)
+        .get("http://localhost:9101/teacher/query/" + this.page)
         .then(res => {
           let ret = res.data.data;
           this.teacherData = ret.records;
